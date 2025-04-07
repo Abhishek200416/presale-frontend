@@ -1,0 +1,382 @@
+:root {
+    --toggle-bg-light: #000000e9;
+    /* dark circle for light mode */
+    --toggle-bg-dark: #fff;
+    /* light circle for dark mode */
+}
+
+.custom-landing-section {
+    position: relative;
+    padding: 40px 20px;
+    text-align: center;
+    padding-bottom: 0px;
+    margin-top: 8%;
+}
+
+
+/* Mobile Styles */
+
+@media (max-width: 768px) {
+    .custom-landing-section {
+        margin-top: 15%;
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-landing-section {
+        margin-top: 20%;
+    }
+}
+
+.custom-landing-logo {
+    margin-bottom: 20px;
+    margin-top: 14px;
+}
+
+.custom-landing-logo img {
+    max-width: 90px;
+    height: auto;
+    margin: 0 auto;
+}
+
+body.dark .custom-landing-logo img {
+    filter: brightness(0) invert(1);
+}
+
+.p1 {
+    font-size: 28px;
+    font-weight: 100;
+    text-transform: uppercase;
+}
+
+.p2 {
+    font-size: 20px;
+    font-weight: 100;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 22px;
+    font-weight: 100;
+    margin-bottom: 20px;
+}
+
+.p3 {
+    font-size: 24px;
+    font-weight: 100;
+    text-transform: lowercase;
+}
+
+.custom-landing-text h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    font-weight: 100;
+}
+
+.join-presale-btn {
+    padding: 14px 8px;
+    font-size: 14px;
+    margin-bottom: 10%;
+}
+
+.custom-landing-text p {
+    margin-bottom: 20px;
+}
+
+
+/* Only apply padding on screens wider than 768px */
+
+@media (min-width: 768px) {
+    .custom-landing-text p {
+        padding: 3px 32%;
+    }
+}
+
+
+/* Fixed toggle button (outer circle) */
+
+.custom-drawer-toggle {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--toggle-bg-light);
+    border: 1px solid rgb(86, 86, 86);
+    cursor: pointer;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: scaleIn 0.6s ease-out;
+}
+
+.custom-drawer-toggle:hover {
+    background: rgb(29, 29, 29);
+}
+
+.custom-drawer-toggle:active {
+    background: black;
+}
+
+
+/* Inner image transitions */
+
+.custom-drawer-toggle img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    transform: scale(1);
+}
+
+.custom-drawer-toggle img:hover {
+    transform: scale(0.9);
+}
+
+.custom-drawer-toggle img.scale-out {
+    transform: scale(0);
+    transform: scale(0.8);
+}
+
+.custom-drawer-toggle img.scale-in {
+    transform: scale(1);
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* Drawer overlay and content */
+
+.custom-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 16, 16, 0.75);
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.custom-drawer-overlay.open {
+    visibility: visible;
+}
+
+.custom-drawer-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+/* Logo inside the drawer */
+
+.drawer-logo {
+    margin-bottom: 30px;
+    margin-top: 0px;
+    animation: fadeInLogo 0.09s forwards;
+    background-color: #0a0a0a0f;
+}
+
+.drawer-logo img {
+    max-width: 85px;
+    height: auto;
+    margin: 0 auto;
+    filter: brightness(0) invert(1);
+}
+
+@keyframes fadeInLogo {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Container for the menu blocks */
+
+.drawer-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    align-items: center;
+    margin-top: 80px;
+}
+
+body.drawer-open {
+    overflow: hidden;
+}
+
+
+/* SlideUp animation for menu items when opening */
+
+@keyframes slideUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* SlideDown animation for menu items when closing */
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+}
+
+
+/* Each menu item styled as a rounded button-like element */
+
+.drawer-menu-item {
+    background: #0808088f;
+    color: #fff;
+    padding: 9px 10px;
+    border-radius: 30px;
+    border: 1px solid #616161;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0;
+    animation: slideUp 0.5s forwards;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+}
+
+
+/* Ensure links inside drawer-menu-item inherit the styling */
+
+.drawer-menu-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.drawer-menu-item:hover {
+    background: #333;
+}
+
+
+/* Staggered animation delays for slideUp (opening) */
+
+.drawer-menu-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.drawer-menu-item:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.drawer-menu-item:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.drawer-menu-item:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+
+/* When closing, the menu container gets the 'exit' class, and each menu item uses slideDown with reversed delays */
+
+.drawer-menu.exit .drawer-menu-item:nth-child(1) {
+    animation: slideDown 0.9s forwards;
+    animation-delay: 0.9s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(2) {
+    animation: slideDown 0.6s forwards;
+    animation-delay: 0.6s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(3) {
+    animation: slideDown 0.3s forwards;
+    animation-delay: 0.3s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(4) {
+    animation: slideDown 0.1s forwards;
+    animation-delay: 0.1s;
+}
+
+
+/* ... other existing styles ... */
+
+
+/* =================== Mobile Adjustments =================== */
+
+@media (max-width: 768px) {
+    /* The entire drawer content is a flex container in your existing code */
+    .custom-drawer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        /* changed from space-between to reduce spacing */
+        padding-top: 20px;
+        /* add a bit of top padding so content isn't stuck at top */
+    }
+    /* We place the animated texts ABOVE the menu */
+    .drawer-animated-texts {
+        order: 1;
+        /* Make sure this is shown first */
+        margin-top: 140px;
+        /* Remove large margins */
+        padding: 10px 0;
+        /* Just a little breathing room */
+        row-gap: 1px;
+        /* Less gap between text blocks */
+        text-align: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    /* The logo container (drawer-inner-content) can come next */
+    .drawer-inner-content {
+        order: 2;
+        width: 100%;
+        margin-top: 10px;
+        /* Slight spacing below the text block */
+    }
+    /* The menu items container (drawer-menu) is last */
+    .drawer-menu {
+        margin-top: 40px;
+        gap: 65px;
+        /* Reduced from 170px */
+    }
+    /* If you want to shrink the gap between each menu item, reduce gap or margins */
+    .drawer-menu-item {
+        margin: 0;
+        /* remove extra margin if you have any */
+    }
+}
+
+
+/* ... rest of your existing styles remain unchanged ... */

@@ -1,0 +1,575 @@
+:root {
+    --toggle-bg-light: #1b1b1b;
+    --toggle-bg-dark: #fff;
+}
+
+
+/* ======================= Landing Section & Toggle ======================= */
+
+.custom-landing-section {
+    position: relative;
+    padding: 40px 20px;
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.custom-landing-logo {
+    margin-bottom: 20px;
+    margin-top: -19.5px;
+}
+
+.custom-landing-logo img {
+    max-width: 100px;
+    height: auto;
+    margin: 0 auto;
+}
+
+body.dark .custom-landing-logo img {
+    filter: brightness(0) invert(1);
+}
+
+.p1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.custom-landing-text h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.custom-landing-text p {
+    margin-bottom: 30px;
+}
+
+
+/* Fixed toggle button (outer circle) */
+
+.custom-drawer-toggle {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--toggle-bg-light);
+    border: 1px solid rgb(86, 86, 86);
+    cursor: pointer;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: scaleIn 0.6s ease-out;
+}
+
+.custom-drawer-toggle:hover {
+    background: rgb(29, 29, 29);
+}
+
+.custom-drawer-toggle:active {
+    background: black;
+}
+
+.custom-drawer-toggle img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    transform: scale(1);
+}
+
+.custom-drawer-toggle img.scale-out {
+    transform: scale(0);
+}
+
+.custom-drawer-toggle img.scale-in {
+    transform: scale(1);
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ==================== Drawer Overlay & Content ==================== */
+
+.custom-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 16, 16, 0.75);
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.custom-drawer-overlay.open {
+    visibility: visible;
+}
+
+.custom-drawer-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+/* ======================= Drawer Logo ======================= */
+
+.drawer-logo {
+    margin-bottom: 30px;
+    margin-top: 0;
+    animation: fadeInLogo 0.5s forwards;
+    background-color: #0909090f;
+}
+
+.drawer-logo img {
+    max-width: 100px;
+    height: auto;
+    margin: 0 auto;
+    filter: brightness(0) invert(1);
+}
+
+@keyframes fadeInLogo {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* ======================= Menu Blocks Animation ======================= */
+
+.drawer-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    align-items: center;
+    margin-top: 170px;
+}
+
+body.drawer-open {
+    overflow: hidden;
+}
+
+
+/* Desktop menu item animations */
+
+@keyframes slideUpFromBottom {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDownToBottom {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+.drawer-menu-item {
+    background: rgba(18, 18, 18, 0.595);
+    /* Semi-transparent dark background */
+    backdrop-filter: blur(8px);
+    /* Blur effect for background */
+    color: #fff;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid #616161;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0;
+    animation: slideUpFromBottom 0.3s forwards;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+}
+
+.drawer-menu-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.drawer-menu-item:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.drawer-menu-item:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.drawer-menu-item:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(1) {
+    animation: slideDownToBottom 0.3s forwards;
+    animation-delay: 0.25s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(2) {
+    animation: slideDownToBottom 0.3s forwards;
+    animation-delay: 0.2s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(3) {
+    animation: slideDownToBottom 0.3s forwards;
+    animation-delay: 0.15s;
+}
+
+.drawer-menu.exit .drawer-menu-item:nth-child(4) {
+    animation: slideDownToBottom 0.3s forwards;
+    animation-delay: 0.1s;
+}
+
+
+/* =================== Advanced Animated Texts =================== */
+
+
+/* Container positioning: desktop – texts appear at fixed positions above the menu */
+
+.drawer-animated-texts {
+    position: absolute;
+    top: 49%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 275px;
+    pointer-events: none;
+}
+
+
+/* Left text block: “Rafsar” style */
+
+.drawer-left {
+    position: relative;
+    font-size: 18px;
+    font-weight: 300;
+    color: #fff;
+    opacity: 0;
+    text-decoration: none;
+    animation: slideInLeft 0.6s forwards;
+}
+
+
+/* Right text block: “Email” */
+
+.drawer-right {
+    position: relative;
+    font-size: 18px;
+    font-weight: 300;
+    color: #fff;
+    opacity: 0;
+    animation: slideInRight 0.6s forwards;
+}
+
+
+/* Slide in from sides (desktop) */
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+/* Border “drawing” effect for each text block */
+
+.drawer-left::before,
+.drawer-right::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    height: 2px;
+    width: 0;
+}
+
+.drawer-left::before {
+    animation: borderDrawLeft 0.6s forwards;
+    animation-delay: 0.3s;
+}
+
+.drawer-right::before {
+    animation: borderDrawRight 0.6s forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes borderDrawLeft {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes borderDrawRight {
+    to {
+        width: 100%;
+    }
+}
+
+
+/* Exit animations for texts (if closing) */
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+}
+
+
+/* When exit is triggered, add an .exit class to the container */
+
+.drawer-animated-texts.exit .drawer-left {
+    animation: slideOutLeft 0.5s forwards;
+}
+
+.drawer-animated-texts.exit .drawer-right {
+    animation: slideOutRight 0.5s forwards;
+}
+
+
+/* =================== Mobile Adjustments =================== */
+
+@media (max-width: 768px) {
+    /* Make the entire drawer content a flex container with column direction */
+    .custom-drawer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    /* Assume you wrap the logo and menu in a container, e.g. .drawer-inner-content */
+    .drawer-inner-content {
+        order: 1;
+        width: 100%;
+        /* Optional: adjust spacing or alignment if needed */
+    }
+    /* Move the animated texts block to the bottom */
+    .drawer-animated-texts {
+        order: 2;
+        width: 100%;
+        display: flex;
+        margin-top: 40%;
+        padding: 20px 0;
+        row-gap: 50px;
+        text-align: center;
+        flex-direction: column-reverse;
+    }
+}
+
+
+/* Animated Buttons Block */
+
+.drawer-animated-texts {
+    position: absolute;
+    top: 48%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 275px;
+    pointer-events: none;
+}
+
+
+/* Base styles for animated buttons */
+
+.drawer-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    font-weight: 300;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    padding: 5px 10px;
+}
+
+.drawer-left,
+.drawer-right {
+    position: relative;
+    font-size: 14px;
+    font-weight: 300;
+    color: #fff;
+    text-transform: uppercase;
+    opacity: 0;
+    text-decoration: none;
+    cursor: pointer;
+    /* Make them look clickable */
+    /* Add initial padding and border styling for button appearance */
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+.drawer-left:hover,
+.drawer-right:hover {
+    background: rgba(0, 0, 0, 0.781);
+}
+
+
+/* Remove default button styling */
+
+.drawer-btn:focus {
+    outline: none;
+}
+
+
+/* Hover effects */
+
+.drawer-btn button:hover {
+    background: rgb(0, 0, 0);
+}
+
+
+/* Border “drawing” effect for each button */
+
+.drawer-btn::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    height: 2px;
+    width: 0;
+}
+
+
+/* Existing keyframe animations remain unchanged */
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes borderDrawLeft {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes borderDrawRight {
+    to {
+        width: 100%;
+    }
+}
+
+
+/* Exit animations for buttons (if closing) */
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+}
+
+
+/* Mobile adjustments for animated buttons */
+
+@media (max-width: 768px) {
+    .drawer-animated-texts {
+        order: 2;
+        width: 100%;
+        display: flex;
+        margin-top: 40%;
+        padding: 20px 0;
+        text-align: center;
+        flex-direction: column-reverse;
+    }
+}
